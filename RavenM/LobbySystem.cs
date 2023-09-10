@@ -240,7 +240,7 @@ namespace RavenM
             LobbySystem.instance.ReadyToPlay = true;
             LobbySystem.instance.LobbyDataReady = false;
             if (LobbySystem.instance.LoadedServerMods)
-                LobbySystem.instance.RequestModReload = true;
+                LobbySystem.instance.RequestModReload = false;
             LobbySystem.instance.IsLobbyOwner = false;
 
             ChatManager.instance.ResetChat();
@@ -478,7 +478,6 @@ namespace RavenM
                 }
 
                 if (needsToReload)
-                    ModManager.instance.ReloadModContent();
                 SetLobbyDataDedup("owner", OwnerID.ToString());
                 SetLobbyDataDedup("mods", string.Join(",", mods.ToArray()));
                 SteamMatchmaking.SetLobbyMemberData(ActualLobbyID, "loaded", "yes");
@@ -581,31 +580,7 @@ namespace RavenM
             if (ModsToDownload.Count == 0)
             {
                 Plugin.logger.LogInfo($"All server mods downloaded.");
-
-                if (InLobby && LobbyDataReady && !IsLobbyOwner)
-                {
-                    List<bool> oldState = new List<bool>();
-
-                    foreach (var mod in ModManager.instance.mods)
-                    {
-                        oldState.Add(mod.enabled);
-
-                        mod.enabled = ServerMods.Contains(mod.workshopItemId);
-                    }
-
-                    // Clones the list of enabled mods.
-                    ModManager.instance.ReloadModContent();
-                    LoadedServerMods = true;
-
-                    for (int i = 0; i < ModManager.instance.mods.Count; i++)
-                        ModManager.instance.mods[i].enabled = oldState[i];
-                }
-            }
-            else
-            {
-                var mod_id = ModsToDownload[0];
-                bool isDownloading = SteamUGC.DownloadItem(mod_id, true);
-                Plugin.logger.LogInfo($"Downloading mod with id: {mod_id} -- {isDownloading}");
+                ModManager.instance.ReloadModContent();
             }
         }
 

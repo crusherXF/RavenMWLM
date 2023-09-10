@@ -9,27 +9,6 @@ using System.Reflection;
 using UnityEngine;
 namespace RavenM
 {
-    /// <summary>
-    /// Disable mods that are NOT workshop mods.
-    /// </summary>
-    [HarmonyPatch(typeof(ModManager), nameof(ModManager.OnGameManagerStart))]
-    public class NoCustommodsPatch
-    {
-        static bool Prefix(ModManager __instance)
-        {
-            string path = "NOT_REAL";
-            if (Plugin.addToBuiltInMutators)
-            {
-                path = Plugin.customBuildInMutators;
-                __instance.noContentMods = false;
-                __instance.noWorkshopMods = true;
-            }
-            __instance.modStagingPathOverride = path;
-            typeof(MapEditor.MapDescriptor).GetField("DATA_PATH", BindingFlags.Static | BindingFlags.Public).SetValue(null, path);
-            return true;
-        }
-    }
-
     public class GuidComponent : MonoBehaviour
     {
         public int guid; //TODO: Replace with System.GUID?
