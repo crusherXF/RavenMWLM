@@ -8,6 +8,7 @@ A Ravenfield multiplayer mod.
 [![Downloads](https://img.shields.io/github/downloads/ABigPickle/RavenM/total.svg?label=Downloads&logo=GitHub&style=for-the-badge)](https://github.com/ABigPickle/RavenM/releases/latest)
 
 ## This mod is very <b>W.I.P.</b> There are a lot of bugs and opportunities to crash, so please report anything you find!
+## This is a fork of the original mods that enables local mod loading, workshop mod loading hasn't been tested
 
 # Installing
 
